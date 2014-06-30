@@ -1,4 +1,4 @@
-
+package com.homenet.refactor;
 public class PhoneNumber {
 	private Num number;
 

@@ -1,4 +1,4 @@
-
+package com.homenet.refactor;
 class Num {
 	private String val;
 

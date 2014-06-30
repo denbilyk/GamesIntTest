@@ -1,3 +1,5 @@
+package com.homenet.cachemap;
+
 import junit.framework.TestCase;
 
 /**
