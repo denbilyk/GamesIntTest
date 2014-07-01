@@ -1,24 +1,31 @@
 package com.homenet.cachemap;
 
-import junit.framework.TestCase;
+
+import org.junit.Before;
+import org.junit.Test;
+import static org.junit.Assert.*;
 
 /**
  * JUnit test case for a CacheMap implementation.
  * <p/>
  * Feel free to add more methods.
  */
-public class CacheMap_UnitTest extends TestCase {
+
+
+public class CacheMap_UnitTest {
     CacheMap<Integer, String> cache;
     final static long TIME_TO_LIVE = 1000;
 
+    @Before
     public void setUp() throws Exception {
         Clock.setTime(1000);
-
+        cache = new CashMapImpl<Integer, String>();
         //TODO instantiate cache object
 
         cache.setTimeToLive(TIME_TO_LIVE);
     }
 
+    @Test
     public void testExpiry() throws Exception {
         cache.put(1, "apple");
         assertEquals("apple", cache.get(1));
@@ -29,6 +36,7 @@ public class CacheMap_UnitTest extends TestCase {
 
     }
 
+    @Test
     public void testSize() throws Exception {
         assertEquals(0, cache.size());
         cache.put(1, "apple");
@@ -37,6 +45,7 @@ public class CacheMap_UnitTest extends TestCase {
         assertEquals(0, cache.size());
     }
 
+    @Test
     public void testPartialExpiry() throws Exception {
         //Add an apple, it will expire at 2000
         cache.put(1, "apple");
@@ -56,6 +65,7 @@ public class CacheMap_UnitTest extends TestCase {
         assertEquals(1, cache.size());
     }
 
+    @Test
     public void testPutReturnValue() {
         cache.put(1, "apple");
         assertNotNull(cache.put(1, "banana"));
@@ -63,6 +73,7 @@ public class CacheMap_UnitTest extends TestCase {
         assertNull(cache.put(1, "mango"));
     }
 
+    @Test
     public void testRemove() throws Exception {
         assertNull(cache.remove(new Integer(1)));
 
@@ -75,6 +86,7 @@ public class CacheMap_UnitTest extends TestCase {
 
     }
 
+    @Test
     public void testContainsKeyAndContainsValue() {
         assertFalse(cache.containsKey(1));
         assertFalse(cache.containsValue("apple"));
