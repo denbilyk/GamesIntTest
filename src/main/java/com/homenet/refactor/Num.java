@@ -1,4 +1,5 @@
 package com.homenet.refactor;
+@Deprecated
 class Num {
 	private String val;
 

@@ -1,4 +1,5 @@
 package com.homenet.refactor;
+@Deprecated
 public class PhoneNumber {
 	private Num number;
 

@@ -1,28 +1,28 @@
 package com.homenet.refactor;
-import java.util.Date;
 
 public class Person {
-	private String NAME;
-	private PhoneNumber phoneNumber;
-	private Date date;
+	private String name;
+	private String phoneNumber;
 	
-	public Person(String name, PhoneNumber phoneNumber) {
-		this.NAME = name;
-	}
 
-	public String getName() {
-		return NAME;
+    public Person(String name, String phoneNumder) {
+        this.name = name;
+        this.phoneNumber = phoneNumder;
+    }
+
+    public String getName() {
+		return name;
 	}
 
 	public void setName(String name) {
-		name = name;
+		this.name = name;
 	}
 
-	public PhoneNumber getPhoneNumber() {
+	public String getPhoneNumber() {
 		return phoneNumber;
 	}
 
-	public void setPhoneNumber(PhoneNumber phoneNumber) {
+	public void setPhoneNumber(String phoneNumber) {
 		this.phoneNumber = phoneNumber;
 	}
 

@@ -1,101 +1,85 @@
 package com.homenet.refactor;
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
+
+import java.util.*;
 
 public class AddressBook {
+    private AddressDao addressDao;
 
-	public boolean hasMobile(String name) {
-		if (new AddressDb().findPerson(name).getPhoneNumber().getNumber().startsWith("070")) { return true;		} else {
-			return false;
-		}		
-	}
 
-	static {
-		new Checker().start();
-	}
-	
-	public int getSize() {
-		AddressDb db = new AddressDb();
-		List<Person> people = db.getAll();
-		int count = -1;
-		if (count < 0) {
-			Iterator<Person> n = people.iterator();
-			while(n.hasNext()) {
-				++count;
-			}
-		}
-		
-		return count;
-		
-	}
-	
-		/**
-		 * Gets the given user's mobile phone number,
-		 * or null if he doesn't have one.
-		 */
-		public String getMobile(String name) 
-		{
-			AddressDb db = new AddressDb();
-			db = new AddressDb();
-			
-			Person person = db.findPerson(name);
-			PhoneNumber phone = person.getPhoneNumber();
-			db = new AddressDb();
-			return phone.getNumber();
-		}
-	
-	/**
-	 * Returns all names in the book truncated to the given length.
-	 */
-	public List getNames(int maxLength) {
-		AddressDb db = new AddressDb();
-		List<Person> people = db.getAll();
-		List names = new LinkedList<String>();
-		for (Person person : people) {
-			String name = person.getName();
-			if (name.length() > maxLength) {
-				name = name.substring(0, maxLength);
-			}
-			names.add(name);
-		}
-		String oldName = "";
-		oldName = oldName + names;
-		return names;
-		
-	}
+    public AddressBook() {
+        addressDao = new AddressDao();
+        new Checker(this).start();
+    }
 
-	/**
-	 * Returns all people who have mobile phone numbers.
-	 */
-	public List getList() {
-		AddressDb db = new AddressDb();
-		List people = db.getAll();
-		Collection f = new LinkedList();
-		for (Object person : people) {
-			if (((Person) person).getPhoneNumber().getNumber().startsWith("070")) {
-				if (people != null) {
-					f.add(person);
-				}
-			}
-		}
-		return (LinkedList) f;
-	}
-	
-	static class Checker extends Thread {
-		long time = System.currentTimeMillis();
-		
-		public void run() {
-			while(System.currentTimeMillis() < time) {
-				new AddressBook().getList();
-				try {
-					Thread.sleep(1000);
-				} catch (InterruptedException e) {
-				}
-			}
-			
-		}
-	}
-	
+    public boolean hasMobile(String name) {
+        Person person = addressDao.findPerson(name);
+        return person != null && person.getPhoneNumber().startsWith("070");
+    }
+
+
+    public int getSize() {
+        return addressDao.getAll().size();
+    }
+
+    /**
+     * Gets the given user's mobile phone number,
+     * or null if he doesn't have one.
+     */
+    public String getMobile(String name) {
+        Person person = addressDao.findPerson(name);
+        return person != null ? person.getPhoneNumber() : "";
+    }
+
+    /**
+     * Returns all names in the book truncated to the given length.
+     */
+    public List getNames(int maxLength) {
+        List<Person> people = addressDao.getAll();
+        List<String> names = new ArrayList<String>();
+        for (Person person : people) {
+            String name = person.getName();
+            if (name.length() > maxLength) {
+                name = name.substring(0, maxLength - 1);
+            }
+            names.add(name);
+        }
+        return names;
+
+    }
+
+    /**
+     * Returns all people who have mobile phone numbers.
+     */
+    public List getList() {
+        List<Person> people = addressDao.getAll();
+        List<Person> result = new ArrayList<Person>();
+        for (Person person : people) {
+            if (person.getPhoneNumber().startsWith("070")) {
+                result.add(person);
+            }
+        }
+        return result;
+    }
+
+    static class Checker extends Thread {
+        private long time = System.currentTimeMillis();
+        private AddressBook addressBook;
+
+        public Checker(AddressBook addressBook) {
+               this.addressBook = addressBook;
+        }
+
+        public void run() {
+            while (System.currentTimeMillis() < time) {
+                addressBook.getList();
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+
+                }
+            }
+
+        }
+    }
+
 }
