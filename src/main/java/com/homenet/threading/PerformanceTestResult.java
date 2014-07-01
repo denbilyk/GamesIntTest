@@ -32,5 +32,9 @@ public class PerformanceTestResult {
 	public long getTotalTime() {
 		return totalTime;
 	}
-	
+
+    @Override
+    public String toString() {
+        return "Total time: " + totalTime + "ms - Min time: " + minTime + "ms - Max time: " + maxTime + "ms";
+    }
 }

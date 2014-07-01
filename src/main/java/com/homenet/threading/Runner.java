@@ -14,20 +14,21 @@ import java.util.concurrent.Executors;
  */
 public class Runner {
     private static PerformanceTester tester = new PerformanceTesterImpl();
-    private static ThreadRunnerHelper helper = new ThreadRunnerHelper();
 
     public static void main(String[] args) throws InterruptedException {
-        int threadPool = 1;
-        int calculatinCount = 5;
-        int fib = 10;
+        int threadPool = Integer.valueOf(args[0]);
+        int calculatinCount = Integer.valueOf(args[1]);
+        int fib = Integer.valueOf(args[2]);
         Runnable runnable = new TestTask(fib);
-        tester.runPerformanceTest(runnable, calculatinCount, threadPool);
+        PerformanceTestResult result = tester.runPerformanceTest(runnable, calculatinCount, threadPool);
+        System.out.println("Result: " + result);
 
     }
 
 
     final static class TestTask implements Runnable {
         private int n;
+        private ThreadRunnerHelper helper = ThreadRunnerHelper.getInstance();
 
         TestTask(int n) {
             this.n = n;
@@ -39,8 +40,7 @@ public class Runner {
             long start = System.nanoTime();
             calc.fib(n);
             long time = System.nanoTime() - start;
-            System.out.println("In thread:" + time);
-            helper.setResult(time);
+            helper.setResult(time/1e6);
         }
     }
 }
