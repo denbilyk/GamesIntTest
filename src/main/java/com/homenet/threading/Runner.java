@@ -17,10 +17,10 @@ public class Runner {
 
     public static void main(String[] args) throws InterruptedException {
         int threadPool = Integer.valueOf(args[0]);
-        int calculatinCount = Integer.valueOf(args[1]);
+        int calculationCount = Integer.valueOf(args[1]);
         int fib = Integer.valueOf(args[2]);
         Runnable runnable = new TestTask(fib);
-        PerformanceTestResult result = tester.runPerformanceTest(runnable, calculatinCount, threadPool);
+        PerformanceTestResult result = tester.runPerformanceTest(runnable, calculationCount, threadPool);
         System.out.println("Result: " + result);
 
     }
@@ -40,7 +40,7 @@ public class Runner {
             long start = System.nanoTime();
             calc.fib(n);
             long time = System.nanoTime() - start;
-            helper.setResult(time/1e6);
+            helper.setResult(time);
         }
     }
 }

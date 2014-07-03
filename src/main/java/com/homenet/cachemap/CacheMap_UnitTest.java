@@ -3,6 +3,7 @@ package com.homenet.cachemap;
 
 import org.junit.Before;
 import org.junit.Test;
+
 import static org.junit.Assert.*;
 
 /**
@@ -20,8 +21,6 @@ public class CacheMap_UnitTest {
     public void setUp() throws Exception {
         Clock.setTime(1000);
         cache = new CashMapImpl<Integer, String>();
-        //TODO instantiate cache object
-
         cache.setTimeToLive(TIME_TO_LIVE);
     }
 
@@ -76,11 +75,8 @@ public class CacheMap_UnitTest {
     @Test
     public void testRemove() throws Exception {
         assertNull(cache.remove(new Integer(1)));
-
         cache.put(new Integer(1), "apple");
-
         assertEquals("apple", cache.remove(new Integer(1)));
-
         assertNull(cache.get(new Integer(1)));
         assertEquals(0, cache.size());
 
@@ -105,6 +101,29 @@ public class CacheMap_UnitTest {
         assertFalse(cache.containsKey(2));
         assertFalse(cache.containsValue("orange"));
 
+
+    }
+
+
+    @Test
+    public void testNullKey() {
+        cache.put(1, "apple");
+        assertNotNull(cache.get(1));
+        assertNull(cache.put(null, "apple"));
+        assertNotNull(cache.get(1));
+        assertTrue(cache.containsValue("apple"));
+    }
+
+
+    @Test
+    public void testNullValue() {
+        cache.put(1, null);
+        assertNull(cache.get(1));
+        cache.put(1, "apple");
+        assertNotNull(cache.get(1));
+        cache.put(1, null);
+        assertNull(cache.get(1));
+        assertFalse(cache.containsValue("apple"));
 
     }
 

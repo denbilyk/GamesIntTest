@@ -22,16 +22,16 @@ public class ThreadRunnerHelper {
         return instance;
     }
 
-    public synchronized void setResult(Double res) {
-        this.res.add(res.longValue());
+    public synchronized void setResult(long res) {
+        this.res.add(res);
 
     }
 
     public PerformanceTestResult getResult() {
         Collections.sort(res);
         long sum = 0;
-        for (Long re : res) {
-            sum += re;
+        for (Long time : res) {
+            sum += time;
         }
         return new PerformanceTestResult(sum, res.get(0), res.get(res.size() - 1));
     }

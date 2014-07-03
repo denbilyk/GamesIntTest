@@ -8,8 +8,8 @@ import java.util.concurrent.*;
  * @author denis.bilyk.
  */
 public class CashMapImpl<KeyType, ValueType> implements CacheMap<KeyType, ValueType> {
-    private long timeToLive;
-    private final Map<KeyType, ValueType> map = new ConcurrentHashMap<KeyType, ValueType>();
+    private long timeToLive = 1000;
+    private final Map<KeyType, ValueType> map = new HashMap<KeyType, ValueType>();
     private final Map<KeyType, Long> context = new HashMap<KeyType, Long>();
 
     @Override
@@ -24,10 +24,15 @@ public class CashMapImpl<KeyType, ValueType> implements CacheMap<KeyType, ValueT
 
     @Override
     public ValueType put(KeyType key, ValueType value) {
-        if(context.get(key) == null) {
-            context.put(key, Clock.getTime());
-            return map.put(key, value);
+        if (key == null) return null;
+        if (value == null) {
+            context.remove(key);
+            map.remove(key);
         }
+        if (context.get(key) == null) {
+            context.put(key, Clock.getTime());
+        }
+        map.put(key, value);
         validateKey(key);
         return map.get(key);
     }
@@ -35,7 +40,6 @@ public class CashMapImpl<KeyType, ValueType> implements CacheMap<KeyType, ValueT
     @Override
     public void clearExpired() {
         validateKeys();
-
     }
 
     @Override
@@ -79,8 +83,8 @@ public class CashMapImpl<KeyType, ValueType> implements CacheMap<KeyType, ValueT
     }
 
     private void validateKey(Object key) {
-        Long v = context.get(key);
-        if (v!=null && v < Clock.getTime() - timeToLive) {
+        Long aliveTime = context.get(key);
+        if (aliveTime != null && aliveTime < Clock.getTime() - timeToLive) {
             map.remove(key);
         }
     }

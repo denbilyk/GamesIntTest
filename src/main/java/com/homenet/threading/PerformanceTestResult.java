@@ -35,6 +35,6 @@ public class PerformanceTestResult {
 
     @Override
     public String toString() {
-        return "Total time: " + totalTime + "ms - Min time: " + minTime + "ms - Max time: " + maxTime + "ms";
+        return "Total time: " + totalTime + "ns - Min time: " + minTime + "ns - Max time: " + maxTime + "ns";
     }
 }

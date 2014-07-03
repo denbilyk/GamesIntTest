@@ -7,16 +7,23 @@ public class AddressBook {
 
 
     public AddressBook() {
-        addressDao = new AddressDao();
+        addressDao = new AddressDaoImpl();
         new Checker(this).start();
+
     }
 
+    /**
+     * Return true if person with name 'name' has mobile
+     */
     public boolean hasMobile(String name) {
         Person person = addressDao.findPerson(name);
         return person != null && person.getPhoneNumber().startsWith("070");
     }
 
 
+    /**
+     * @return - amount of entries in database
+     */
     public int getSize() {
         return addressDao.getAll().size();
     }
@@ -27,7 +34,7 @@ public class AddressBook {
      */
     public String getMobile(String name) {
         Person person = addressDao.findPerson(name);
-        return person != null ? person.getPhoneNumber() : "";
+        return person != null ? person.getPhoneNumber() : null;
     }
 
     /**
@@ -70,7 +77,7 @@ public class AddressBook {
         }
 
         public void run() {
-            while (System.currentTimeMillis() < time) {
+            while (System.currentTimeMillis() > time) {
                 addressBook.getList();
                 try {
                     Thread.sleep(1000);
