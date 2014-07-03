@@ -4,14 +4,12 @@ import com.homenet.threading.PerformanceTestResult;
 import com.homenet.threading.PerformanceTester;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 import java.util.concurrent.*;
-import java.util.concurrent.locks.Lock;
 
 /**
  * @author denis.bilyk.
+ * PerformanceTester implementation.
  */
 public class PerformanceTesterImpl implements PerformanceTester {
 
@@ -28,7 +26,7 @@ public class PerformanceTesterImpl implements PerformanceTester {
         for (Future future : list) {
             while (!future.isDone()){}
         }
-        return ThreadRunnerHelper.getInstance().getResult();
+        return ResultsHolder.getInstance().getResult();
     }
 
 

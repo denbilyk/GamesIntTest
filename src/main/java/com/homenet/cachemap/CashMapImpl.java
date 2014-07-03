@@ -2,10 +2,10 @@ package com.homenet.cachemap;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.*;
 
 /**
  * @author denis.bilyk.
+ * CashMap implementation.
  */
 public class CashMapImpl<KeyType, ValueType> implements CacheMap<KeyType, ValueType> {
     private long timeToLive = 1000;
@@ -39,7 +39,9 @@ public class CashMapImpl<KeyType, ValueType> implements CacheMap<KeyType, ValueT
 
     @Override
     public void clearExpired() {
-        validateKeys();
+        for (Map.Entry<KeyType, Long> keyTypeLongEntry : context.entrySet()) {
+            validateKey(keyTypeLongEntry.getKey());
+        }
     }
 
     @Override
@@ -56,7 +58,7 @@ public class CashMapImpl<KeyType, ValueType> implements CacheMap<KeyType, ValueT
 
     @Override
     public boolean containsValue(Object value) {
-        validateKeys();
+        clearExpired();
         return map.containsValue(value);
     }
 
@@ -78,8 +80,7 @@ public class CashMapImpl<KeyType, ValueType> implements CacheMap<KeyType, ValueT
 
     @Override
     public int size() {
-        //TODO dont think validateKeys() supposed to be here! performance
-        validateKeys();
+        clearExpired();
         return map.size();
     }
 
@@ -87,12 +88,6 @@ public class CashMapImpl<KeyType, ValueType> implements CacheMap<KeyType, ValueT
         Long aliveTime = context.get(key);
         if (aliveTime != null && aliveTime < Clock.getTime() - timeToLive) {
             map.remove(key);
-        }
-    }
-    //TODO only in clearExpired must be called, performance!
-    private void validateKeys() {
-        for (Map.Entry<KeyType, Long> keyTypeLongEntry : context.entrySet()) {
-            validateKey(keyTypeLongEntry.getKey());
         }
     }
 }

@@ -4,19 +4,19 @@ import com.homenet.threading.FibCalc;
 
 /**
  * @author denis.bilyk.
+ * Implementation of fibonacci calculator without recurcivity.
  */
 public class FibCalcImpl implements FibCalc {
     @Override
     public long fib(int n) {
         long fibonacci = 0;
         long num = 0;
-        //TODO maybe nextNum variable name
-        long num2 = 1;
+        long nextNum = 1;
         for (int loop = 0; loop < n; loop ++)
         {
-            fibonacci = num + num2;
-            num = num2;
-            num2 = fibonacci;
+            fibonacci = num + nextNum;
+            num = nextNum;
+            nextNum = fibonacci;
         }
         return fibonacci;
     }

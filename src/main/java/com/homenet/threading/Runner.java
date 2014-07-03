@@ -2,15 +2,11 @@ package com.homenet.threading;
 
 import com.homenet.threading.impl.FibCalcImpl;
 import com.homenet.threading.impl.PerformanceTesterImpl;
-import com.homenet.threading.impl.ThreadRunnerHelper;
-
-import java.lang.management.ManagementFactory;
-import java.util.concurrent.Callable;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
+import com.homenet.threading.impl.ResultsHolder;
 
 /**
  * @author denis.bilyk.
+ * Main class to run performance test
  */
 public class Runner {
     private static PerformanceTester tester = new PerformanceTesterImpl();
@@ -25,23 +21,24 @@ public class Runner {
 
     }
 
-    //TODO java docs
+    /**
+     * Class to run performance test in thread.
+     */
     final static class TestTask implements Runnable {
-        //TODO variables names everywhere
-        private int n;
-        private ThreadRunnerHelper helper = ThreadRunnerHelper.getInstance();
+        private int fibonacciNumber;
+        private ResultsHolder holder = ResultsHolder.getInstance();
 
-        TestTask(int n) {
-            this.n = n;
+        TestTask(int fibonacciNumber) {
+            this.fibonacciNumber = fibonacciNumber;
         }
 
         @Override
         public void run() {
             FibCalc calc = new FibCalcImpl();
             long start = System.nanoTime();
-            calc.fib(n);
+            calc.fib(fibonacciNumber);
             long time = System.nanoTime() - start;
-            helper.setResult(time);
+            holder.setResult(time);
         }
     }
 }

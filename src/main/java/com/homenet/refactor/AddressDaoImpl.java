@@ -2,18 +2,19 @@ package com.homenet.refactor;
 
 import java.sql.*;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
-public class AddressDaoImpl implements AddressDao{
+/**
+ * AddressDao implementation. Provide connection to database.
+ */
+public class AddressDaoImpl implements AddressDao {
     private static final String DRIVER_CLASS = "oracle.jdbc.ThinDriver";
     private static final String CONNECTION_URL = "jdbc:oracle:thin:@prod";
     private static final String CONNECTION_USER = "admin";
     private static final String CONNECTION_PASS = "beefhead";
-    //TODO I would create Person, PersonEntity table? seriously?
-    private static final String SQL_INSERT_ADDRESS = "insert into PersonEntity(id, name, phoneNumber) values (?, ?, ?)";
-    private static final String SQL_SELECT_PERSON = "select * from PersonEntity where name = ?";
-    private static final String SQL_SELECT_ALL = "select * from PersonEntity";
+    private static final String SQL_INSERT_ADDRESS = "insert into Persons(id, name, phoneNumber) values (?, ?, ?)";
+    private static final String SQL_SELECT_PERSON = "select * from Persons where name = ?";
+    private static final String SQL_SELECT_ALL = "select * from Persons";
 
 
     public AddressDaoImpl() {
@@ -25,6 +26,10 @@ public class AddressDaoImpl implements AddressDao{
 
     }
 
+    /**
+     * Put person entity to database.
+     * @param person - person entity
+     */
     public void addPerson(Person person) {
         Connection connection = null;
         PreparedStatement statement = null;
@@ -36,8 +41,8 @@ public class AddressDaoImpl implements AddressDao{
             statement.setString(3, person.getPhoneNumber());
             statement.executeUpdate();
         } catch (SQLException e) {
-            //TODO didnt fixed this commit
-            //TODO somewhere we log it, somewhere printStackTrace...
+            //needs put to log
+            e.printStackTrace();
         } finally {
             close(statement);
             close(connection);
@@ -74,6 +79,11 @@ public class AddressDaoImpl implements AddressDao{
         return null;
     }
 
+
+    /**
+     * Get all persons in database.
+     * @return  - list of all persons which were found in database.
+     */
     public List<Person> getAll() {
         Connection connection = null;
         PreparedStatement statement = null;
@@ -97,8 +107,7 @@ public class AddressDaoImpl implements AddressDao{
             close(statement);
             close(connection);
         }
-        //TODO why unmodifiable list?
-        return Collections.unmodifiableList(list);
+        return list;
     }
 
 

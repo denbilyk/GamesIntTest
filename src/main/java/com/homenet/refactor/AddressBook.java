@@ -3,6 +3,7 @@ package com.homenet.refactor;
 import java.util.*;
 
 public class AddressBook {
+    private static final String SW_CODE = "070";
     private AddressDao addressDao;
 
 
@@ -17,7 +18,7 @@ public class AddressBook {
      */
     public boolean hasMobile(String name) {
         Person person = addressDao.findPerson(name);
-        return person != null && person.getPhoneNumber().startsWith("070");
+        return person != null && person.getPhoneNumber().startsWith(SW_CODE);
     }
 
 
@@ -61,8 +62,7 @@ public class AddressBook {
         List<Person> people = addressDao.getAll();
         List<Person> result = new ArrayList<Person>();
         for (Person person : people) {
-            //TODO Constants, all move to them
-            if (person.getPhoneNumber().startsWith("070")) {
+            if (person.getPhoneNumber().startsWith(SW_CODE)) {
                 result.add(person);
             }
         }

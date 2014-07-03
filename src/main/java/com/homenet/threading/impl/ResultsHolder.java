@@ -6,18 +6,19 @@ import java.util.*;
 
 /**
  * @author denis.bilyk.
+ * Class is holding test results.
  */
-public class ThreadRunnerHelper {
-    private static ThreadRunnerHelper instance;
+public class ResultsHolder {
+    private static ResultsHolder instance;
     private List<Long> res;
 
-    private ThreadRunnerHelper() {
+    private ResultsHolder() {
         res = new ArrayList<Long>();
     }
 
-    public static synchronized ThreadRunnerHelper getInstance() {
+    public static synchronized ResultsHolder getInstance() {
         if (instance == null) {
-            instance = new ThreadRunnerHelper();
+            instance = new ResultsHolder();
         }
         return instance;
     }
@@ -29,11 +30,11 @@ public class ThreadRunnerHelper {
 
     public PerformanceTestResult getResult() {
         Collections.sort(res);
-        long sum = 0;
+        long totalTime = 0;
         for (Long time : res) {
-            sum += time;
+            totalTime += time;
         }
-        return new PerformanceTestResult(sum, res.get(0), res.get(res.size() - 1));
+        return new PerformanceTestResult(totalTime, res.get(0), res.get(res.size() - 1));
     }
 
 }
