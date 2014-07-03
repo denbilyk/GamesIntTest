@@ -78,6 +78,7 @@ public class CashMapImpl<KeyType, ValueType> implements CacheMap<KeyType, ValueT
 
     @Override
     public int size() {
+        //TODO dont think validateKeys() supposed to be here! performance
         validateKeys();
         return map.size();
     }
@@ -88,7 +89,7 @@ public class CashMapImpl<KeyType, ValueType> implements CacheMap<KeyType, ValueT
             map.remove(key);
         }
     }
-
+    //TODO only in clearExpired must be called, performance!
     private void validateKeys() {
         for (Map.Entry<KeyType, Long> keyTypeLongEntry : context.entrySet()) {
             validateKey(keyTypeLongEntry.getKey());

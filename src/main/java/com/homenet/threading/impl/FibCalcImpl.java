@@ -10,6 +10,7 @@ public class FibCalcImpl implements FibCalc {
     public long fib(int n) {
         long fibonacci = 0;
         long num = 0;
+        //TODO maybe nextNum variable name
         long num2 = 1;
         for (int loop = 0; loop < n; loop ++)
         {

@@ -61,6 +61,7 @@ public class AddressBook {
         List<Person> people = addressDao.getAll();
         List<Person> result = new ArrayList<Person>();
         for (Person person : people) {
+            //TODO Constants, all move to them
             if (person.getPhoneNumber().startsWith("070")) {
                 result.add(person);
             }

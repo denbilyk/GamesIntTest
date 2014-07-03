@@ -10,6 +10,7 @@ public class AddressDaoImpl implements AddressDao{
     private static final String CONNECTION_URL = "jdbc:oracle:thin:@prod";
     private static final String CONNECTION_USER = "admin";
     private static final String CONNECTION_PASS = "beefhead";
+    //TODO I would create Person, PersonEntity table? seriously?
     private static final String SQL_INSERT_ADDRESS = "insert into PersonEntity(id, name, phoneNumber) values (?, ?, ?)";
     private static final String SQL_SELECT_PERSON = "select * from PersonEntity where name = ?";
     private static final String SQL_SELECT_ALL = "select * from PersonEntity";
@@ -35,6 +36,7 @@ public class AddressDaoImpl implements AddressDao{
             statement.setString(3, person.getPhoneNumber());
             statement.executeUpdate();
         } catch (SQLException e) {
+            //TODO didnt fixed this commit
             //TODO somewhere we log it, somewhere printStackTrace...
         } finally {
             close(statement);

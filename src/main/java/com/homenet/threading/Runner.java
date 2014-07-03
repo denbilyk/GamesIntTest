@@ -25,8 +25,9 @@ public class Runner {
 
     }
 
-
+    //TODO java docs
     final static class TestTask implements Runnable {
+        //TODO variables names everywhere
         private int n;
         private ThreadRunnerHelper helper = ThreadRunnerHelper.getInstance();
 
